@@ -1,0 +1,45 @@
+### Leetcode https://false-trouser-16e.notion.site/SQL-Assignment-2-55551bec198c41e1a65e0fec249b792f
+
+- [https://leetcode.com/problems/big-countries](https://leetcode.com/problems/big-countries)
+
+select name,population, area from world where area>=3000000 or population>=25000000;
+
+
+- [https://leetcode.com/problems/swap-salary/](https://leetcode.com/problems/swap-salary/)
+update salary set sex=if( sex='m', 'f' , 'm');
+
+
+- [https://leetcode.com/problems/not-boring-movies/](https://leetcode.com/problems/not-boring-movies/)
+select * from cinema where id %2<>0 and description!='boring' order by rating desc;
+
+
+- [https://leetcode.com/problems/duplicate-emails/](https://leetcode.com/problems/duplicate-emails/)
+select Email from person group by email having count(*)>1;
+
+
+- [https://leetcode.com/problems/combine-two-tables/](https://leetcode.com/problems/combine-two-tables/)
+select p.firstname, p.lastname, a.city, a.state from person p left join address a on p.personid=a.personid;
+
+
+- [https://leetcode.com/problems/employees-earning-more-than-their-managers/](https://leetcode.com/problems/employees-earning-more-than-their-managers/)
+select t2.name as Employee from employee t1 inner join employee t2 on t1.id=t2.managerid where t1.salary<t2.salary;
+
+
+- [https://leetcode.com/problems/customers-who-never-order/](https://leetcode.com/problems/customers-who-never-order/)
+select name as Customers from customers where id not in (select customerid from  Orders);
+
+
+- [https://leetcode.com/problems/delete-duplicate-emails](https://leetcode.com/problems/delete-duplicate-emails)
+delete p2 from person p1  join person p2 on p1.email=p2.email where p1.id<p2.id; 
+
+
+- [https://leetcode.com/problems/rising-temperature](https://leetcode.com/problems/rising-temperature)
+select t1.id from weather t1 , weather t2 where t1.temperature>t2.temperature and datediff(t1.recordDate,t2.recordDate)=1; 
+
+
+- [https://leetcode.com/problems/classes-more-than-5-students](https://leetcode.com/problems/classes-more-than-5-students)
+select class from courses group by class having count(*)>4;
+
+
+- [https://leetcode.com/problems/second-highest-salary/](https://leetcode.com/problems/second-highest-salary/)
+select max(salary) as SecondHighestSalary from employee where salary< (select max(salary) from employee) ;
