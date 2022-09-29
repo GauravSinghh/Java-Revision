@@ -1,0 +1,1160 @@
+INNER JOIN
+
+
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS brand;
+
+CREATE TABLE category (
+	category_id   INTEGER NOT NULL,
+	category_name TEXT    NOT NULL,
+	PRIMARY KEY (category_id)
+);
+
+CREATE TABLE brand (
+	brand_id   INTEGER NOT NULL,
+	brand_name TEXT    NOT NULL,
+	PRIMARY KEY (brand_id)
+);
+
+CREATE TABLE product (
+	product_id   INTEGER NOT NULL,
+	product_name TEXT    NOT NULL,
+	brand_id     INTEGER NOT NULL,
+	category_id  INTEGER,
+	model_year   INTEGER NOT NULL,
+	list_price   REAL    NOT NULL,
+	PRIMARY KEY (product_id),
+	FOREIGN KEY (category_id) REFERENCES category (category_id),
+	FOREIGN KEY (brand_id) REFERENCES brand (brand_id)
+);
+
+-- category
+INSERT INTO category (category_id, category_name) VALUES (1, 'Children Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (2, 'Comfort Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (3, 'Cruisers Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (4, 'Cyclocross Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (5, 'Electric Bikes');
+INSERT INTO category (category_id, category_name) VALUES (6, 'Mountain Bikes');
+INSERT INTO category (category_id, category_name) VALUES (7, 'Road Bikes');
+
+-- brand 
+INSERT INTO brand (brand_id, brand_name) VALUES (1, 'Electra');
+INSERT INTO brand (brand_id, brand_name) VALUES (2, 'Haro');
+INSERT INTO brand (brand_id, brand_name) VALUES (3, 'Heller');
+INSERT INTO brand (brand_id, brand_name) VALUES (4, 'Pure Cycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (5, 'Ritchey');
+INSERT INTO brand (brand_id, brand_name) VALUES (6, 'Strider');
+INSERT INTO brand (brand_id, brand_name) VALUES (7, 'Sun Bicycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (8, 'Surly');
+INSERT INTO brand (brand_id, brand_name) VALUES (9, 'Trek');
+
+-- product
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (1, 'Trek 820 - 2021', 9, 6, 2021, 379.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (2, 'Ritchey Timberwolf Frameset - 2021', 5, 6, 2021, 749.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (3, 'Surly Wednesday Frameset - 2021', 8, 6, 2021, 999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (4, 'Trek Fuel EX 8 29 - 2021', 9, 6, 2021, 2899.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (5, 'Heller Shagamaw Frame - 2021', 3, NULL, 2021, 1320.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (6, 'Surly Ice Cream Truck Frameset - 2021', 8, 6, 2021, 469.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (7, 'Trek Slash 8 27.5 - 2021', 9, 6, 2021, 3999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (8, 'Trek Remedy 29 Carbon Frameset - 2021', 9, 6, 2021, 1799.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (9, 'Trek Conduit+ - 2021', 9, 5, 2021, 2999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (10, 'Surly Straggler - 2021', 8, 4, 2021, 1549);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (11, 'Surly Straggler 650b - 2021', 8, 4, 2021, 1680.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (12, 'Electra Townie Original 21D - 2021', 1, NULL, 2021, 549.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (13, 'Electra Cruiser 1 (24-Inch) - 2021', 1, NULL, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (14, 'Electra Girl''s Hawaii 1 (16-inch) - 2020/2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (15, 'Electra Moto 1 - 2021', 1, 3, 2021, 529.99);
+
+
+
+
+Problem 1 : Create an INNER JOIN of tables:
+* product
+* category
+Use the category_id column to join the tables. Notice that the category_id 
+column in the product table contains NULL values.
+Display all columns in the output table.
+
+mysql> select * from product;
++------------+-----------------------------------------------+----------+-------------+------------+------------+
+| product_id | product_name                                  | brand_id | category_id | model_year | list_price |
++------------+-----------------------------------------------+----------+-------------+------------+------------+
+|          1 | Trek 820 - 2021                               |        9 |           6 |       2021 |     379.99 |
+|          2 | Ritchey Timberwolf Frameset - 2021            |        5 |           6 |       2021 |     749.99 |
+|          3 | Surly Wednesday Frameset - 2021               |        8 |           6 |       2021 |     999.99 |
+|          4 | Trek Fuel EX 8 29 - 2021                      |        9 |           6 |       2021 |    2899.99 |
+|          5 | Heller Shagamaw Frame - 2021                  |        3 |        NULL |       2021 |    1320.99 |
+|          6 | Surly Ice Cream Truck Frameset - 2021         |        8 |           6 |       2021 |     469.99 |
+|          7 | Trek Slash 8 27.5 - 2021                      |        9 |           6 |       2021 |    3999.99 |
+|          8 | Trek Remedy 29 Carbon Frameset - 2021         |        9 |           6 |       2021 |    1799.99 |
+|          9 | Trek Conduit+ - 2021                          |        9 |           5 |       2021 |    2999.99 |
+|         10 | Surly Straggler - 2021                        |        8 |           4 |       2021 |       1549 |
+|         11 | Surly Straggler 650b - 2021                   |        8 |           4 |       2021 |    1680.99 |
+|         12 | Electra Townie Original 21D - 2021            |        1 |        NULL |       2021 |     549.99 |
+|         13 | Electra Cruiser 1 (24-Inch) - 2021            |        1 |        NULL |       2021 |     269.99 |
+|         14 | Electra Girl's Hawaii 1 (16-inch) - 2020/2021 |        1 |           3 |       2021 |     269.99 |
+|         15 | Electra Moto 1 - 2021                         |        1 |           3 |       2021 |     529.99 |
++------------+-----------------------------------------------+----------+-------------+------------+------------+
+15 rows in set (0.00 sec)
+
+mysql> select * from category;
++-------------+---------------------+
+| category_id | category_name       |
++-------------+---------------------+
+|           1 | Children Bicycles   |
+|           2 | Comfort Bicycles    |
+|           3 | Cruisers Bicycles   |
+|           4 | Cyclocross Bicycles |
+|           5 | Electric Bikes      |
+|           6 | Mountain Bikes      |
+|           7 | Road Bikes          |
++-------------+---------------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from product p, category c where p.category_id=c.category_id;
++------------+-----------------------------------------------+----------+-------------+------------+------------+-------------+---------------------+
+| product_id | product_name                                  | brand_id | category_id | model_year | list_price | category_id | category_name       |
++------------+-----------------------------------------------+----------+-------------+------------+------------+-------------+---------------------+
+|         14 | Electra Girl's Hawaii 1 (16-inch) - 2020/2021 |        1 |           3 |       2021 |     269.99 |           3 | Cruisers Bicycles   |
+|         15 | Electra Moto 1 - 2021                         |        1 |           3 |       2021 |     529.99 |           3 | Cruisers Bicycles   |
+|         10 | Surly Straggler - 2021                        |        8 |           4 |       2021 |       1549 |           4 | Cyclocross Bicycles |
+|         11 | Surly Straggler 650b - 2021                   |        8 |           4 |       2021 |    1680.99 |           4 | Cyclocross Bicycles |
+|          9 | Trek Conduit+ - 2021                          |        9 |           5 |       2021 |    2999.99 |           5 | Electric Bikes      |
+|          1 | Trek 820 - 2021                               |        9 |           6 |       2021 |     379.99 |           6 | Mountain Bikes      |
+|          2 | Ritchey Timberwolf Frameset - 2021            |        5 |           6 |       2021 |     749.99 |           6 | Mountain Bikes      |
+|          3 | Surly Wednesday Frameset - 2021               |        8 |           6 |       2021 |     999.99 |           6 | Mountain Bikes      |
+|          4 | Trek Fuel EX 8 29 - 2021                      |        9 |           6 |       2021 |    2899.99 |           6 | Mountain Bikes      |
+|          6 | Surly Ice Cream Truck Frameset - 2021         |        8 |           6 |       2021 |     469.99 |           6 | Mountain Bikes      |
+|          7 | Trek Slash 8 27.5 - 2021                      |        9 |           6 |       2021 |    3999.99 |           6 | Mountain Bikes      |
+|          8 | Trek Remedy 29 Carbon Frameset - 2021         |        9 |           6 |       2021 |    1799.99 |           6 | Mountain Bikes      |
++------------+-----------------------------------------------+----------+-------------+------------+------------+-------------+---------------------+
+12 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+Problem 2 :
+Create an INNER JOIN of tables:
+* product
+* category
+Use the category_id column to join the tables.
+Display the following columns in the output table:
+* product_id
+* product_name
+* list_price
+* category_name
+mysql> select p.product_id, p.product_name,p.list_price,c.category_name from category c inner join product p on c.category_id = p.category_id;
++------------+-----------------------------------------------+------------+---------------------+
+| product_id | product_name                                  | list_price | category_name       |
++------------+-----------------------------------------------+------------+---------------------+
+|         14 | Electra Girl's Hawaii 1 (16-inch) - 2020/2021 |     269.99 | Cruisers Bicycles   |
+|         15 | Electra Moto 1 - 2021                         |     529.99 | Cruisers Bicycles   |
+|         10 | Surly Straggler - 2021                        |       1549 | Cyclocross Bicycles |
+|         11 | Surly Straggler 650b - 2021                   |    1680.99 | Cyclocross Bicycles |
+|          9 | Trek Conduit+ - 2021                          |    2999.99 | Electric Bikes      |
+|          1 | Trek 820 - 2021                               |     379.99 | Mountain Bikes      |
+|          2 | Ritchey Timberwolf Frameset - 2021            |     749.99 | Mountain Bikes      |
+|          3 | Surly Wednesday Frameset - 2021               |     999.99 | Mountain Bikes      |
+|          4 | Trek Fuel EX 8 29 - 2021                      |    2899.99 | Mountain Bikes      |
+|          6 | Surly Ice Cream Truck Frameset - 2021         |     469.99 | Mountain Bikes      |
+|          7 | Trek Slash 8 27.5 - 2021                      |    3999.99 | Mountain Bikes      |
+|          8 | Trek Remedy 29 Carbon Frameset - 2021         |    1799.99 | Mountain Bikes      |
++------------+-----------------------------------------------+------------+---------------------+
+12 rows in set (0.00 sec)
+
+
+
+Problem 3 :
+The following query is given:
+
+SELECT
+  t1.product_id,
+  t1.product_name,
+  t1.list_price,
+  t2.category_name
+FROM
+  product AS t1
+INNER JOIN category AS t2 ON t1.category_id = t2.category_id;
+
+Modify the given query to group the data on the category_name level. Calculate the number of products for each category and assign an alias number_of_products.
+The output table should contain two columns:
+category_name
+number_of_products
+Sort output table in descending order by number_of_products.
+
+mysql> select c.category_name,count(*) as number_of_products from category c , product p where c.category_id = p.category_id group by c.category_name;
++---------------------+--------------------+
+| category_name       | number_of_products |
++---------------------+--------------------+
+| Cruisers Bicycles   |                  2 |
+| Cyclocross Bicycles |                  2 |
+| Electric Bikes      |                  1 |
+| Mountain Bikes      |                  7 |
++---------------------+--------------------+
+4 rows in set (0.00 sec)
+
+******************************************
+DROP TABLE IF EXISTS order_01_2021;
+DROP TABLE IF EXISTS order_02_2021;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS brand;
+
+CREATE TABLE category (
+	category_id   INTEGER NOT NULL,
+	category_name TEXT    NOT NULL,
+	PRIMARY KEY (category_id)
+);
+
+CREATE TABLE brand (
+	brand_id   INTEGER NOT NULL,
+	brand_name TEXT    NOT NULL,
+	PRIMARY KEY (brand_id)
+);
+
+CREATE TABLE product (
+	product_id   INTEGER NOT NULL,
+	product_name TEXT    NOT NULL,
+	brand_id     INTEGER NOT NULL,
+	category_id  INTEGER,
+	model_year   INTEGER NOT NULL,
+	list_price   REAL    NOT NULL,
+	PRIMARY KEY (product_id),
+	FOREIGN KEY (category_id) REFERENCES category (category_id),
+	FOREIGN KEY (brand_id) REFERENCES brand (brand_id)
+);
+
+CREATE TABLE order_01_2021 (
+	order_id   INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	quantity   INTEGER NOT NULL,
+	PRIMARY KEY (order_id),
+	FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+CREATE TABLE order_02_2021 (
+	order_id   INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	quantity   INTEGER NOT NULL,
+	PRIMARY KEY (order_id),
+	FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+-- category
+INSERT INTO category (category_id, category_name) VALUES (1, 'Children Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (2, 'Comfort Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (3, 'Cruisers Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (4, 'Cyclocross Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (5, 'Electric Bikes');
+INSERT INTO category (category_id, category_name) VALUES (6, 'Mountain Bikes');
+INSERT INTO category (category_id, category_name) VALUES (7, 'Road Bikes');
+
+-- brand 
+INSERT INTO brand (brand_id, brand_name) VALUES (1, 'Electra');
+INSERT INTO brand (brand_id, brand_name) VALUES (2, 'Haro');
+INSERT INTO brand (brand_id, brand_name) VALUES (3, 'Heller');
+INSERT INTO brand (brand_id, brand_name) VALUES (4, 'Pure Cycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (5, 'Ritchey');
+INSERT INTO brand (brand_id, brand_name) VALUES (6, 'Strider');
+INSERT INTO brand (brand_id, brand_name) VALUES (7, 'Sun Bicycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (8, 'Surly');
+INSERT INTO brand (brand_id, brand_name) VALUES (9, 'Trek');
+
+-- product
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (1, 'Trek 820 - 2021', 9, 6, 2021, 379.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (2, 'Ritchey Timberwolf Frameset - 2021', 5, 6, 2021, 749.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (3, 'Surly Wednesday Frameset - 2021', 8, 6, 2021, 999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (4, 'Trek Fuel EX 8 29 - 2021', 9, 6, 2021, 2899.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (5, 'Heller Shagamaw Frame - 2021', 3, 6, 2021, 1320.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (6, 'Surly Ice Cream Truck Frameset - 2021', 8, 6, 2021, 469.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (7, 'Trek Slash 8 27.5 - 2021', 9, 6, 2021, 3999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (8, 'Trek Remedy 29 Carbon Frameset - 2021', 9, 6, 2021, 1799.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (9, 'Trek Conduit+ - 2021', 9, 5, 2021, 2999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (10, 'Surly Straggler - 2021', 8, 4, 2021, 1549);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (11, 'Surly Straggler 650b - 2021', 8, 4, 2021, 1680.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (12, 'Electra Townie Original 21D - 2021', 1, 3, 2021, 549.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (13, 'Electra Cruiser 1 (24-Inch) - 2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (14, 'Electra Girl''s Hawaii 1 (16-inch) - 2020/2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (15, 'Electra Moto 1 - 2021', 1, 3, 2021, 529.99);
+
+-- order_01_2021
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (1, 3, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (2, 12, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (3, 1, 2);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (4, 4, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (5, 8, 3);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (6, 9, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (7, 5, 1);
+
+-- order_02_2021
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (1, 6, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (2, 10, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (3, 1, 2);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (4, 2, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (5, 7, 3);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (6, 8, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (7, 5, 2);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (9, 11, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (10, 9, 1);
+Problem 4 : Create an INNER JOIN of tables:
+* order_01_2021
+* product
+using the product_id column. In the output table, display the following columns:
+* quantity
+* list_price
+Also add a third column that calculates the total sales for the record 
+(quantity * list_price) and assign the alias total_price.
+mysql> select o.quantity ,p.list_price, o.quantity*p.list_price as total_price from order_01_2021 o inner join product p on o.product_id=p.product_id;
++----------+------------+-------------+
+| quantity | list_price | total_price |
++----------+------------+-------------+
+|        1 |     999.99 |      999.99 |
+|        1 |     549.99 |      549.99 |
+|        2 |     379.99 |      759.98 |
+|        1 |    2899.99 |     2899.99 |
+|        3 |    1799.99 |     5399.97 |
+|        1 |    2999.99 |     2999.99 |
+|        1 |    1320.99 |     1320.99 |
++----------+------------+-------------+
+
+
+
+
+Problem 5 : The following query is given:
+SELECT
+  t1.quantity,
+  t2.list_price,
+  t1.quantity * t2.list_price AS total_price
+FROM
+  order_01_2021 AS t1
+INNER JOIN product AS t2 ON t1.product_id = t2.product_id;
+
+Modify the above query to find the total sales for January and assign the alias 
+total_sales.
+
+mysql> select sum(o.quantity) as total_sales from order_01_2021 o inner join product p on o.product_id=p.product_id;
++-------------+
+| total_sales |
++-------------+
+|          10 |
++-------------+
+1 row in set (0.00 sec)
+
+
+******************************************
+UNION
+
+
+
+CREATE TABLE category (
+	category_id   INTEGER NOT NULL,
+	category_name TEXT    NOT NULL,
+	PRIMARY KEY (category_id)
+);
+
+CREATE TABLE brand (
+	brand_id   INTEGER NOT NULL,
+	brand_name TEXT    NOT NULL,
+	PRIMARY KEY (brand_id)
+);
+
+CREATE TABLE product (
+	product_id   INTEGER NOT NULL,
+	product_name TEXT    NOT NULL,
+	brand_id     INTEGER NOT NULL,
+	category_id  INTEGER,
+	model_year   INTEGER NOT NULL,
+	list_price   REAL    NOT NULL,
+	PRIMARY KEY (product_id),
+	FOREIGN KEY (category_id) REFERENCES category (category_id),
+	FOREIGN KEY (brand_id) REFERENCES brand (brand_id)
+);
+
+CREATE TABLE order_01_2021 (
+	order_id   INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	quantity   INTEGER NOT NULL,
+	PRIMARY KEY (order_id),
+	FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+CREATE TABLE order_02_2021 (
+	order_id   INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	quantity   INTEGER NOT NULL,
+	PRIMARY KEY (order_id),
+	FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+-- category
+INSERT INTO category (category_id, category_name) VALUES (1, 'Children Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (2, 'Comfort Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (3, 'Cruisers Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (4, 'Cyclocross Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (5, 'Electric Bikes');
+INSERT INTO category (category_id, category_name) VALUES (6, 'Mountain Bikes');
+INSERT INTO category (category_id, category_name) VALUES (7, 'Road Bikes');
+
+-- brand 
+INSERT INTO brand (brand_id, brand_name) VALUES (1, 'Electra');
+INSERT INTO brand (brand_id, brand_name) VALUES (2, 'Haro');
+INSERT INTO brand (brand_id, brand_name) VALUES (3, 'Heller');
+INSERT INTO brand (brand_id, brand_name) VALUES (4, 'Pure Cycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (5, 'Ritchey');
+INSERT INTO brand (brand_id, brand_name) VALUES (6, 'Strider');
+INSERT INTO brand (brand_id, brand_name) VALUES (7, 'Sun Bicycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (8, 'Surly');
+INSERT INTO brand (brand_id, brand_name) VALUES (9, 'Trek');
+
+-- product
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (1, 'Trek 820 - 2021', 9, 6, 2021, 379.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (2, 'Ritchey Timberwolf Frameset - 2021', 5, 6, 2021, 749.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (3, 'Surly Wednesday Frameset - 2021', 8, 6, 2021, 999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (4, 'Trek Fuel EX 8 29 - 2021', 9, 6, 2021, 2899.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (5, 'Heller Shagamaw Frame - 2021', 3, 6, 2021, 1320.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (6, 'Surly Ice Cream Truck Frameset - 2021', 8, 6, 2021, 469.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (7, 'Trek Slash 8 27.5 - 2021', 9, 6, 2021, 3999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (8, 'Trek Remedy 29 Carbon Frameset - 2021', 9, 6, 2021, 1799.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (9, 'Trek Conduit+ - 2021', 9, 5, 2021, 2999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (10, 'Surly Straggler - 2021', 8, 4, 2021, 1549);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (11, 'Surly Straggler 650b - 2021', 8, 4, 2021, 1680.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (12, 'Electra Townie Original 21D - 2021', 1, 3, 2021, 549.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (13, 'Electra Cruiser 1 (24-Inch) - 2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (14, 'Electra Girl''s Hawaii 1 (16-inch) - 2020/2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (15, 'Electra Moto 1 - 2021', 1, 3, 2021, 529.99);
+
+-- order_01_2021
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (1, 3, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (2, 12, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (3, 1, 2);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (4, 4, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (5, 8, 3);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (6, 9, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (7, 5, 1);
+
+-- order_02_2021
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (1, 6, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (2, 10, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (3, 1, 2);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (4, 2, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (5, 7, 3);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (6, 8, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (7, 5, 2);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (9, 11, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (10, 9, 1);
+
+Problem 1 : Take a look at the following tables:
+* order_01_2021
+* order_02_2021
+These tables store orders for two consecutive months. Combine these tables into 
+one using the UNION operator. In the output table, display all columns (use 
+placeholder for all columns).
+mysql> select *from order_01_2021 union select * from order_02_2021;
++----------+------------+----------+
+| order_id | product_id | quantity |
++----------+------------+----------+
+|        1 |          3 |        1 |
+|        2 |         12 |        1 |
+|        3 |          1 |        2 |
+|        4 |          4 |        1 |
+|        5 |          8 |        3 |
+|        6 |          9 |        1 |
+|        7 |          5 |        1 |
+|        1 |          6 |        1 |
+|        2 |         10 |        1 |
+|        4 |          2 |        1 |
+|        5 |          7 |        3 |
+|        6 |          8 |        1 |
+|        7 |          5 |        2 |
+|        9 |         11 |        1 |
+|       10 |          9 |        1 |
++----------+------------+----------+
+15 rows in set (0.15 sec)
+
+
+
+
+
+
+Problem 2 : Take a look at the tables:
+* order_01_2021
+* order_02_2021
+The tables store orders for two consecutive months. Combine these tables into 
+one using the UNION operator. Display all columns in the output table by 
+passing names directly in the query. Sort the result by decreasing value for 
+the quantity column.
+mysql> select *from order_01_2021 union select * from order_02_2021 order by quantity desc;
++----------+------------+----------+
+| order_id | product_id | quantity |
++----------+------------+----------+
+|        5 |          8 |        3 |
+|        5 |          7 |        3 |
+|        3 |          1 |        2 |
+|        7 |          5 |        2 |
+|        1 |          3 |        1 |
+|        2 |         12 |        1 |
+|        4 |          4 |        1 |
+|        6 |          9 |        1 |
+|        7 |          5 |        1 |
+|        1 |          6 |        1 |
+|        2 |         10 |        1 |
+|        4 |          2 |        1 |
+|        6 |          8 |        1 |
+|        9 |         11 |        1 |
+|       10 |          9 |        1 |
++----------+------------+----------+
+15 rows in set (0.01 sec)
+
+
+
+
+Problem 3 : Create a LEFT JOIN of tables:
+* order_01_2021
+* product
+using the product_id column. Display all columns in the output table.
+
+mysql> select * from order_01_2021 o left join product p on p.product_id=o.product_id;
++----------+------------+----------+------------+---------------------------------------+----------+-------------+------------+------------+
+| order_id | product_id | quantity | product_id | product_name                          | brand_id | category_id | model_year | list_price |
++----------+------------+----------+------------+---------------------------------------+----------+-------------+------------+------------+
+|        1 |          3 |        1 |          3 | Surly Wednesday Frameset - 2021       |        8 |           6 |       2021 |     999.99 |
+|        2 |         12 |        1 |         12 | Electra Townie Original 21D - 2021    |        1 |           3 |       2021 |     549.99 |
+|        3 |          1 |        2 |          1 | Trek 820 - 2021                       |        9 |           6 |       2021 |     379.99 |
+|        4 |          4 |        1 |          4 | Trek Fuel EX 8 29 - 2021              |        9 |           6 |       2021 |    2899.99 |
+|        5 |          8 |        3 |          8 | Trek Remedy 29 Carbon Frameset - 2021 |        9 |           6 |       2021 |    1799.99 |
+|        6 |          9 |        1 |          9 | Trek Conduit+ - 2021                  |        9 |           5 |       2021 |    2999.99 |
+|        7 |          5 |        1 |          5 | Heller Shagamaw Frame - 2021          |        3 |           6 |       2021 |    1320.99 |
++----------+------------+----------+------------+---------------------------------------+----------+-------------+------------+------------+
+7 rows in set (0.02 sec)
+
+
+
+
+Problem 4 : Create a LEFT JOIN of tables:
+* order_01_2021
+* product
+using the product_id column. In the output table, display the following columns:
+* order_id
+* quantity
+* product_name
+* list_price
+mysql> select o.order_id,o.quantity,p.product_name,p.list_price from order_01_2021 o left join product p on p.product_id=o.product_id;
++----------+----------+---------------------------------------+------------+
+| order_id | quantity | product_name                          | list_price |
++----------+----------+---------------------------------------+------------+
+|        1 |        1 | Surly Wednesday Frameset - 2021       |     999.99 |
+|        2 |        1 | Electra Townie Original 21D - 2021    |     549.99 |
+|        3 |        2 | Trek 820 - 2021                       |     379.99 |
+|        4 |        1 | Trek Fuel EX 8 29 - 2021              |    2899.99 |
+|        5 |        3 | Trek Remedy 29 Carbon Frameset - 2021 |    1799.99 |
+|        6 |        1 | Trek Conduit+ - 2021                  |    2999.99 |
+|        7 |        1 | Heller Shagamaw Frame - 2021          |    1320.99 |
++----------+----------+---------------------------------------+------------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+Problem 5 : The following query is given:
+
+SELECT
+  t1.order_id,
+  t1.quantity,
+  t2.product_name,
+  t2.list_price
+FROM
+  order_01_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id;
+
+Using the UNION operator, create a query that displays unique names of products 
+sold in January and February (tables order_01_2021 and order_01_2021).
+
+mysql> select 
+	p.product_name from order_01_2021 o 
+	left join product p 
+	on p.product_id=o.product_id union select distinct p.product_name from order_02_2021 g left join  product p on g.product_id=p.product_id;
+
++---------------------------------------+
+| product_name                          |
++---------------------------------------+
+| Trek 820 - 2021                       |
+| Surly Wednesday Frameset - 2021       |
+| Trek Fuel EX 8 29 - 2021              |
+| Heller Shagamaw Frame - 2021          |
+| Trek Remedy 29 Carbon Frameset - 2021 |
+| Trek Conduit+ - 2021                  |
+| Electra Townie Original 21D - 2021    |
+| Ritchey Timberwolf Frameset - 2021    |
+| Surly Ice Cream Truck Frameset - 2021 |
+| Trek Slash 8 27.5 - 2021              |
+| Surly Straggler - 2021                |
+| Surly Straggler 650b - 2021           |
++---------------------------------------+
+12 rows in set (0.10 sec)
+
+
+************************************************
+Joining Tables - Union All
+## Schema
+
+```jsx
+DROP TABLE IF EXISTS order_01_2021;
+DROP TABLE IF EXISTS order_02_2021;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS brand;
+
+CREATE TABLE category (
+	category_id   INTEGER NOT NULL,
+	category_name TEXT    NOT NULL,
+	PRIMARY KEY (category_id)
+);
+
+CREATE TABLE brand (
+	brand_id   INTEGER NOT NULL,
+	brand_name TEXT    NOT NULL,
+	PRIMARY KEY (brand_id)
+);
+
+CREATE TABLE product (
+	product_id   INTEGER NOT NULL,
+	product_name TEXT    NOT NULL,
+	brand_id     INTEGER NOT NULL,
+	category_id  INTEGER,
+	model_year   INTEGER NOT NULL,
+	list_price   REAL    NOT NULL,
+	PRIMARY KEY (product_id),
+	FOREIGN KEY (category_id) REFERENCES category (category_id),
+	FOREIGN KEY (brand_id) REFERENCES brand (brand_id)
+);
+
+CREATE TABLE order_01_2021 (
+	order_id   INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	quantity   INTEGER NOT NULL,
+	PRIMARY KEY (order_id),
+	FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+CREATE TABLE order_02_2021 (
+	order_id   INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	quantity   INTEGER NOT NULL,
+	PRIMARY KEY (order_id),
+	FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+-- category
+INSERT INTO category (category_id, category_name) VALUES (1, 'Children Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (2, 'Comfort Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (3, 'Cruisers Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (4, 'Cyclocross Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (5, 'Electric Bikes');
+INSERT INTO category (category_id, category_name) VALUES (6, 'Mountain Bikes');
+INSERT INTO category (category_id, category_name) VALUES (7, 'Road Bikes');
+
+-- brand 
+INSERT INTO brand (brand_id, brand_name) VALUES (1, 'Electra');
+INSERT INTO brand (brand_id, brand_name) VALUES (2, 'Haro');
+INSERT INTO brand (brand_id, brand_name) VALUES (3, 'Heller');
+INSERT INTO brand (brand_id, brand_name) VALUES (4, 'Pure Cycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (5, 'Ritchey');
+INSERT INTO brand (brand_id, brand_name) VALUES (6, 'Strider');
+INSERT INTO brand (brand_id, brand_name) VALUES (7, 'Sun Bicycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (8, 'Surly');
+INSERT INTO brand (brand_id, brand_name) VALUES (9, 'Trek');
+
+-- product
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (1, 'Trek 820 - 2021', 9, 6, 2021, 379.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (2, 'Ritchey Timberwolf Frameset - 2021', 5, 6, 2021, 749.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (3, 'Surly Wednesday Frameset - 2021', 8, 6, 2021, 999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (4, 'Trek Fuel EX 8 29 - 2021', 9, 6, 2021, 2899.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (5, 'Heller Shagamaw Frame - 2021', 3, 6, 2021, 1320.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (6, 'Surly Ice Cream Truck Frameset - 2021', 8, 6, 2021, 469.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (7, 'Trek Slash 8 27.5 - 2021', 9, 6, 2021, 3999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (8, 'Trek Remedy 29 Carbon Frameset - 2021', 9, 6, 2021, 1799.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (9, 'Trek Conduit+ - 2021', 9, 5, 2021, 2999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (10, 'Surly Straggler - 2021', 8, 4, 2021, 1549);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (11, 'Surly Straggler 650b - 2021', 8, 4, 2021, 1680.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (12, 'Electra Townie Original 21D - 2021', 1, 3, 2021, 549.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (13, 'Electra Cruiser 1 (24-Inch) - 2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (14, 'Electra Girl''s Hawaii 1 (16-inch) - 2020/2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (15, 'Electra Moto 1 - 2021', 1, 3, 2021, 529.99);
+
+-- order_01_2021
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (1, 3, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (2, 12, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (3, 1, 2);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (4, 4, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (5, 8, 3);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (6, 9, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (7, 5, 1);
+
+-- order_02_2021
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (1, 6, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (2, 10, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (3, 1, 2);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (4, 2, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (5, 7, 3);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (6, 8, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (7, 5, 2);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (9, 11, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (10, 9, 1);
+```
+
+```jsx
+**Problem 1 :** The following query is given:
+
+SELECT
+  t1.order_id,
+  t1.quantity,
+  t2.product_name,
+  t2.list_price
+FROM
+  order_01_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id;
+
+Using the UNION ALL operator, create a query that displays all sales data for 
+January and February (order_01_2021 and order_01_2021 tables). Display the same 
+columns in the output table.
+
+SELECT
+  t1.order_id,
+  t1.quantity,
+  t2.product_name,
+  t2.list_price
+FROM
+  order_01_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id
+union all
+SELECT
+  t1.order_id,
+  t1.quantity,
+  t2.product_name,
+  t2.list_price
+FROM
+  order_02_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id;
++----------+----------+---------------------------------------+------------+
+| order_id | quantity | product_name                          | list_price |
++----------+----------+---------------------------------------+------------+
+|        1 |        1 | Surly Wednesday Frameset - 2021       |     999.99 |
+|        2 |        1 | Electra Townie Original 21D - 2021    |     549.99 |
+|        3 |        2 | Trek 820 - 2021                       |     379.99 |
+|        4 |        1 | Trek Fuel EX 8 29 - 2021              |    2899.99 |
+|        5 |        3 | Trek Remedy 29 Carbon Frameset - 2021 |    1799.99 |
+|        6 |        1 | Trek Conduit+ - 2021                  |    2999.99 |
+|        7 |        1 | Heller Shagamaw Frame - 2021          |    1320.99 |
+|        1 |        1 | Surly Ice Cream Truck Frameset - 2021 |     469.99 |
+|        2 |        1 | Surly Straggler - 2021                |       1549 |
+|        3 |        2 | Trek 820 - 2021                       |     379.99 |
+|        4 |        1 | Ritchey Timberwolf Frameset - 2021    |     749.99 |
+|        5 |        3 | Trek Slash 8 27.5 - 2021              |    3999.99 |
+|        6 |        1 | Trek Remedy 29 Carbon Frameset - 2021 |    1799.99 |
+|        7 |        2 | Heller Shagamaw Frame - 2021          |    1320.99 |
+|        9 |        1 | Surly Straggler 650b - 2021           |    1680.99 |
+|       10 |        1 | Trek Conduit+ - 2021                  |    2999.99 |
++----------+----------+---------------------------------------+------------+
+16 rows in set (0.00 sec)
+
+
+
+**Problem 2 :** The following query is given:
+
+SELECT
+  t1.quantity,
+  t2.product_name,
+  t2.list_price,
+	
+FROM
+  order_01_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id
+UNION ALL
+SELECT
+  t1.quantity,
+  t2.product_name,
+  t2.list_price,
+
+FROM
+  order_02_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id;
+
+Modify this query by adding a fourth column that calculates the total sales for 
+each record (quantity * list_price) and assign the alias total_price to it.
+
+
+SELECT
+  t1.quantity,
+  t2.product_name,
+  t2.list_price,
+	t1.quantity * t2.list_price as total_price
+FROM
+  order_01_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id
+UNION ALL
+SELECT
+  t1.quantity,
+  t2.product_name,
+  t2.list_price,
+t1.quantity * t2.list_price as total_price
+FROM
+  order_02_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id;
++----------+---------------------------------------+------------+-------------+
+| quantity | product_name                          | list_price | total_price |
++----------+---------------------------------------+------------+-------------+
+|        1 | Surly Wednesday Frameset - 2021       |     999.99 |      999.99 |
+|        1 | Electra Townie Original 21D - 2021    |     549.99 |      549.99 |
+|        2 | Trek 820 - 2021                       |     379.99 |      759.98 |
+|        1 | Trek Fuel EX 8 29 - 2021              |    2899.99 |     2899.99 |
+|        3 | Trek Remedy 29 Carbon Frameset - 2021 |    1799.99 |     5399.97 |
+|        1 | Trek Conduit+ - 2021                  |    2999.99 |     2999.99 |
+|        1 | Heller Shagamaw Frame - 2021          |    1320.99 |     1320.99 |
+|        1 | Surly Ice Cream Truck Frameset - 2021 |     469.99 |      469.99 |
+|        1 | Surly Straggler - 2021                |       1549 |        1549 |
+|        2 | Trek 820 - 2021                       |     379.99 |      759.98 |
+|        1 | Ritchey Timberwolf Frameset - 2021    |     749.99 |      749.99 |
+|        3 | Trek Slash 8 27.5 - 2021              |    3999.99 |    11999.97 |
+|        1 | Trek Remedy 29 Carbon Frameset - 2021 |    1799.99 |     1799.99 |
+|        2 | Heller Shagamaw Frame - 2021          |    1320.99 |     2641.98 |
+|        1 | Surly Straggler 650b - 2021           |    1680.99 |     1680.99 |
+|        1 | Trek Conduit+ - 2021                  |    2999.99 |     2999.99 |
++----------+---------------------------------------+------------+-------------+
+16 rows in set (0.00 sec)
+
+
+
+**Problem 3 :** The following query is given:
+
+SELECT
+  t1.quantity,
+  t2.product_name,
+  t2.list_price,
+  t1.quantity * t2.list_price AS total_price
+FROM
+  order_01_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id
+UNION ALL
+SELECT
+  t1.quantity,
+  t2.product_name,
+  t2.list_price,
+  t1.quantity * t2.list_price AS total_price
+FROM
+  order_02_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id;
+
+Modify the above query. Sort the output table by descending total_price and 
+limit the result to the first five records.
+
+SELECT
+  t1.quantity,
+  t2.product_name,
+  t2.list_price,
+  t1.quantity * t2.list_price AS total_price
+FROM
+  order_01_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id
+UNION ALL
+SELECT
+  t1.quantity,
+  t2.product_name,
+  t2.list_price,
+  t1.quantity * t2.list_price AS total_price
+FROM
+  order_02_2021 AS t1
+LEFT JOIN product AS t2 ON t1.product_id = t2.product_id order by total_price desc;
+
++----------+---------------------------------------+------------+-------------+
+| quantity | product_name                          | list_price | total_price |
++----------+---------------------------------------+------------+-------------+
+|        3 | Trek Slash 8 27.5 - 2021              |    3999.99 |    11999.97 |
+|        3 | Trek Remedy 29 Carbon Frameset - 2021 |    1799.99 |     5399.97 |
+|        1 | Trek Conduit+ - 2021                  |    2999.99 |     2999.99 |
+|        1 | Trek Conduit+ - 2021                  |    2999.99 |     2999.99 |
+|        1 | Trek Fuel EX 8 29 - 2021              |    2899.99 |     2899.99 |
+|        2 | Heller Shagamaw Frame - 2021          |    1320.99 |     2641.98 |
+|        1 | Trek Remedy 29 Carbon Frameset - 2021 |    1799.99 |     1799.99 |
+|        1 | Surly Straggler 650b - 2021           |    1680.99 |     1680.99 |
+|        1 | Surly Straggler - 2021                |       1549 |        1549 |
+|        1 | Heller Shagamaw Frame - 2021          |    1320.99 |     1320.99 |
+|        1 | Surly Wednesday Frameset - 2021       |     999.99 |      999.99 |
+|        2 | Trek 820 - 2021                       |     379.99 |      759.98 |
+|        2 | Trek 820 - 2021                       |     379.99 |      759.98 |
+|        1 | Ritchey Timberwolf Frameset - 2021    |     749.99 |      749.99 |
+|        1 | Electra Townie Original 21D - 2021    |     549.99 |      549.99 |
+|        1 | Surly Ice Cream Truck Frameset - 2021 |     469.99 |      469.99 |
++----------+---------------------------------------+------------+-------------+
+16 rows in set (0.00 sec)
+
+```
+*************************************************************************************************
+
+# Joining Tables - Except
+
+## Schema
+
+```jsx
+DROP TABLE IF EXISTS order_01_2021;
+DROP TABLE IF EXISTS order_02_2021;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS brand;
+
+CREATE TABLE category (
+	category_id   INTEGER NOT NULL,
+	category_name TEXT    NOT NULL,
+	PRIMARY KEY (category_id)
+);
+
+CREATE TABLE brand (
+	brand_id   INTEGER NOT NULL,
+	brand_name TEXT    NOT NULL,
+	PRIMARY KEY (brand_id)
+);
+
+CREATE TABLE product (
+	product_id   INTEGER NOT NULL,
+	product_name TEXT    NOT NULL,
+	brand_id     INTEGER NOT NULL,
+	category_id  INTEGER,
+	model_year   INTEGER NOT NULL,
+	list_price   REAL    NOT NULL,
+	PRIMARY KEY (product_id),
+	FOREIGN KEY (category_id) REFERENCES category (category_id),
+	FOREIGN KEY (brand_id) REFERENCES brand (brand_id)
+);
+
+CREATE TABLE order_01_2021 (
+	order_id   INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	quantity   INTEGER NOT NULL,
+	PRIMARY KEY (order_id),
+	FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+CREATE TABLE order_02_2021 (
+	order_id   INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	quantity   INTEGER NOT NULL,
+	PRIMARY KEY (order_id),
+	FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+-- category
+INSERT INTO category (category_id, category_name) VALUES (1, 'Children Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (2, 'Comfort Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (3, 'Cruisers Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (4, 'Cyclocross Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (5, 'Electric Bikes');
+INSERT INTO category (category_id, category_name) VALUES (6, 'Mountain Bikes');
+INSERT INTO category (category_id, category_name) VALUES (7, 'Road Bikes');
+
+-- brand 
+INSERT INTO brand (brand_id, brand_name) VALUES (1, 'Electra');
+INSERT INTO brand (brand_id, brand_name) VALUES (2, 'Haro');
+INSERT INTO brand (brand_id, brand_name) VALUES (3, 'Heller');
+INSERT INTO brand (brand_id, brand_name) VALUES (4, 'Pure Cycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (5, 'Ritchey');
+INSERT INTO brand (brand_id, brand_name) VALUES (6, 'Strider');
+INSERT INTO brand (brand_id, brand_name) VALUES (7, 'Sun Bicycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (8, 'Surly');
+INSERT INTO brand (brand_id, brand_name) VALUES (9, 'Trek');
+
+-- product
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (1, 'Trek 820 - 2021', 9, 6, 2021, 379.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (2, 'Ritchey Timberwolf Frameset - 2021', 5, 6, 2021, 749.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (3, 'Surly Wednesday Frameset - 2021', 8, 6, 2021, 999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (4, 'Trek Fuel EX 8 29 - 2021', 9, 6, 2021, 2899.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (5, 'Heller Shagamaw Frame - 2021', 3, 6, 2021, 1320.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (6, 'Surly Ice Cream Truck Frameset - 2021', 8, 6, 2021, 469.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (7, 'Trek Slash 8 27.5 - 2021', 9, 6, 2021, 3999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (8, 'Trek Remedy 29 Carbon Frameset - 2021', 9, 6, 2021, 1799.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (9, 'Trek Conduit+ - 2021', 9, 5, 2021, 2999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (10, 'Surly Straggler - 2021', 8, 4, 2021, 1549);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (11, 'Surly Straggler 650b - 2021', 8, 4, 2021, 1680.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (12, 'Electra Townie Original 21D - 2021', 1, 3, 2021, 549.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (13, 'Electra Cruiser 1 (24-Inch) - 2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (14, 'Electra Girl''s Hawaii 1 (16-inch) - 2020/2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (15, 'Electra Moto 1 - 2021', 1, 3, 2021, 529.99);
+
+-- order_01_2021
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (1, 3, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (2, 12, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (3, 1, 2);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (4, 4, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (5, 8, 3);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (6, 9, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (7, 5, 1);
+
+-- order_02_2021
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (1, 6, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (2, 10, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (3, 1, 2);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (4, 2, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (5, 7, 3);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (6, 8, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (7, 5, 2);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (9, 11, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (10, 9, 1);
+```
+
+
+
+Problem 1 : Using the EXCEPT operator, display all names of products that were sold in 
+January but not in February.
+SELECT t2.product_name
+FROM
+  order_01_2021  t1
+LEFT JOIN product  t2 ON t1.product_id = t2.product_id
+ EXCEPT 
+SELECT
+ t2.product_name
+FROM
+  order_02_2021  t1
+LEFT JOIN product  t2 ON t1.product_id = t2.product_id;
+
+
+
+
+
+Problem 2 : Display all names of products that were sold in February but not in January 
+using the EXCEPT operator.
+SELECT t2.product_name
+FROM
+  order_02_2021  t1
+LEFT JOIN product  t2 ON t1.product_id = t2.product_id
+ EXCEPT 
+SELECT
+ t2.product_name
+FROM
+  order_01_2021  t1
+LEFT JOIN product  t2 ON t1.product_id = t2.product_id;
+
+
+
+***********************************************************************************
+INTERSECT
+
+DROP TABLE IF EXISTS order_01_2021;
+DROP TABLE IF EXISTS order_02_2021;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS brand;
+
+CREATE TABLE category (
+	category_id   INTEGER NOT NULL,
+	category_name TEXT    NOT NULL,
+	PRIMARY KEY (category_id)
+);
+
+CREATE TABLE brand (
+	brand_id   INTEGER NOT NULL,
+	brand_name TEXT    NOT NULL,
+	PRIMARY KEY (brand_id)
+);
+
+CREATE TABLE product (
+	product_id   INTEGER NOT NULL,
+	product_name TEXT    NOT NULL,
+	brand_id     INTEGER NOT NULL,
+	category_id  INTEGER,
+	model_year   INTEGER NOT NULL,
+	list_price   REAL    NOT NULL,
+	PRIMARY KEY (product_id),
+	FOREIGN KEY (category_id) REFERENCES category (category_id),
+	FOREIGN KEY (brand_id) REFERENCES brand (brand_id)
+);
+
+CREATE TABLE order_01_2021 (
+	order_id   INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	quantity   INTEGER NOT NULL,
+	PRIMARY KEY (order_id),
+	FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+CREATE TABLE order_02_2021 (
+	order_id   INTEGER NOT NULL,
+	product_id INTEGER NOT NULL,
+	quantity   INTEGER NOT NULL,
+	PRIMARY KEY (order_id),
+	FOREIGN KEY (product_id) REFERENCES product (product_id)
+);
+
+-- category
+INSERT INTO category (category_id, category_name) VALUES (1, 'Children Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (2, 'Comfort Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (3, 'Cruisers Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (4, 'Cyclocross Bicycles');
+INSERT INTO category (category_id, category_name) VALUES (5, 'Electric Bikes');
+INSERT INTO category (category_id, category_name) VALUES (6, 'Mountain Bikes');
+INSERT INTO category (category_id, category_name) VALUES (7, 'Road Bikes');
+
+-- brand 
+INSERT INTO brand (brand_id, brand_name) VALUES (1, 'Electra');
+INSERT INTO brand (brand_id, brand_name) VALUES (2, 'Haro');
+INSERT INTO brand (brand_id, brand_name) VALUES (3, 'Heller');
+INSERT INTO brand (brand_id, brand_name) VALUES (4, 'Pure Cycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (5, 'Ritchey');
+INSERT INTO brand (brand_id, brand_name) VALUES (6, 'Strider');
+INSERT INTO brand (brand_id, brand_name) VALUES (7, 'Sun Bicycles');
+INSERT INTO brand (brand_id, brand_name) VALUES (8, 'Surly');
+INSERT INTO brand (brand_id, brand_name) VALUES (9, 'Trek');
+
+-- product
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (1, 'Trek 820 - 2021', 9, 6, 2021, 379.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (2, 'Ritchey Timberwolf Frameset - 2021', 5, 6, 2021, 749.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (3, 'Surly Wednesday Frameset - 2021', 8, 6, 2021, 999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (4, 'Trek Fuel EX 8 29 - 2021', 9, 6, 2021, 2899.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (5, 'Heller Shagamaw Frame - 2021', 3, 6, 2021, 1320.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (6, 'Surly Ice Cream Truck Frameset - 2021', 8, 6, 2021, 469.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (7, 'Trek Slash 8 27.5 - 2021', 9, 6, 2021, 3999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (8, 'Trek Remedy 29 Carbon Frameset - 2021', 9, 6, 2021, 1799.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (9, 'Trek Conduit+ - 2021', 9, 5, 2021, 2999.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (10, 'Surly Straggler - 2021', 8, 4, 2021, 1549);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (11, 'Surly Straggler 650b - 2021', 8, 4, 2021, 1680.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (12, 'Electra Townie Original 21D - 2021', 1, 3, 2021, 549.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (13, 'Electra Cruiser 1 (24-Inch) - 2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (14, 'Electra Girl''s Hawaii 1 (16-inch) - 2020/2021', 1, 3, 2021, 269.99);
+INSERT INTO product (product_id, product_name, brand_id, category_id, model_year, list_price) VALUES (15, 'Electra Moto 1 - 2021', 1, 3, 2021, 529.99);
+
+-- order_01_2021
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (1, 3, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (2, 12, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (3, 1, 2);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (4, 4, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (5, 8, 3);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (6, 9, 1);
+INSERT INTO order_01_2021 (order_id, product_id, quantity) VALUES (7, 5, 1);
+
+-- order_02_2021
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (1, 6, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (2, 10, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (3, 1, 2);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (4, 2, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (5, 7, 3);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (6, 8, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (7, 5, 2);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (9, 11, 1);
+INSERT INTO order_02_2021 (order_id, product_id, quantity) VALUES (10, 9, 1);
+
+
+Problem 1 : Using the INTERSECT operator, display all names of products that were sold in 
+January and February.
+
+SELECT t2.product_name
+FROM
+  order_01_2021  t1
+LEFT JOIN product  t2 ON t1.product_id = t2.product_id
+INTERSECT
+SELECT
+ t2.product_name
+FROM
+  order_02_2021  t1
+LEFT JOIN product  t2 ON t1.product_id = t2.product_id;
