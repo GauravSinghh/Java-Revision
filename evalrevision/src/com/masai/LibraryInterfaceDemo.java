@@ -50,7 +50,7 @@ public class LibraryInterfaceDemo {
 
 	public static void main(String[] args) {
 
-		System.out.println("Wlecome to library..");
+		System.out.println("Welcome to library..");
 
 		System.out.println("Enter your age for register:- ");
 
