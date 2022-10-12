@@ -38,6 +38,7 @@ public class AddressServiceImpl implements AddressService{
 	@Override
 	public Address getAddressByEmpIdAndAddId(Integer empId, Integer address_id) throws Exception {
 		Employee emp = employeeServiceImpl.getEmployeeById(empId);
+		//System.out.println(emp);
 		if(emp==null) {
 			throw new EmployeeNotfoundException("Employee not found");
 		}
@@ -52,18 +53,17 @@ public class AddressServiceImpl implements AddressService{
 	@Override
 	public String saveAddressByEmpId(Address ad,Integer empId) throws Exception {
 		
-		//Employee emp = employeeServiceImpl.getEmployeeById(empId);
 		Optional<Employee> opt = employeeDao.findById(empId);
-//		if(emp==null) {
-//			throw new EmployeeNotfoundException("Employee not found");
-//		}
+		if(opt.isEmpty()) {
+			throw new EmployeeNotfoundException("Employee not found");
+		}
 		Employee emp = opt.get();
-			List<Address> aList = emp.getAddress();
-			aList.add(ad);
-			emp.setAddress(aList);
-		 //employeeServiceImpl.saveEmployee(emp);
-		 employeeDao.save(emp);
-		 return "Address saved "+ad;
+		emp.getAddress().add(ad);
+		ad.setEmployee(emp);
+			
+		employeeServiceImpl.saveEmployee(emp);
+	
+		 return "Address saved ";
 	}
 
 	@Override
@@ -77,11 +77,10 @@ public class AddressServiceImpl implements AddressService{
 		if(opt.isEmpty()) {
 			 throw new AddressNotfoundException("Address not found");
 		}
-		List<Address> aList = emp.getAddress();
-		if(aList.remove(opt.get())) {
-			aList.add(ad);
-			msg ="Address Updated "+ad;
-		}
+		emp.getAddress().add(ad);
+		ad.setEmployee(emp);
+		employeeDao.save(emp);
+		msg ="Address Updated ";
 		return msg;
 	}
 
@@ -96,11 +95,15 @@ public class AddressServiceImpl implements AddressService{
 		if(opt.isEmpty()) {
 			 throw new AddressNotfoundException("Address not found");
 		}
-		List<Address> aList = emp.getAddress();
-		if(aList.remove(opt.get())) {
-			
-			msg ="Address Deleted";
-		}
+		addressDao.delete(opt.get());
+//		emp.getAddress().remove(opt.get());
+//		employeeDao.save(emp);
+		msg ="Address Deleted";
+//		List<Address> aList = emp.getAddress().remove(opt.get());
+//		if(aList.remove(opt.get())) {
+//			
+//			msg ="Address Deleted";
+//		}
 		return msg;
 		
 	}

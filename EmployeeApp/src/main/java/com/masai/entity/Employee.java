@@ -11,18 +11,26 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 
 
 @Entity
-@Data
+@Setter
+@Getter
+
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Employee {
 
 	@Id
@@ -40,5 +48,6 @@ public class Employee {
 	private String cellphone;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "employee")
+	//@JsonIgnore
 	private List<Address> address;
 }

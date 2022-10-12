@@ -36,7 +36,7 @@ public class AddressController {
 	}
 	
 	@GetMapping("/employees/{empId}/address/{id}")
-	public ResponseEntity<Address> getAddressByEmpIdAndAdIdHandler(@PathVariable Integer empId,Integer id) throws Exception{
+	public ResponseEntity<Address> getAddressByEmpIdAndAdIdHandler(@PathVariable Integer empId,@PathVariable Integer id) throws Exception{
 		return  new ResponseEntity<Address>(addressServiceImpl.getAddressByEmpIdAndAddId(empId, id),HttpStatus.ACCEPTED);
 	}
 	
@@ -52,7 +52,7 @@ public class AddressController {
 	}
 	
 	@DeleteMapping("/employees/{empId}/address/{id}")
-	public ResponseEntity<String> deleteAddressByEmpIdAndAdIdHandler(@PathVariable Integer empId, Integer id) throws Exception{
+	public ResponseEntity<String> deleteAddressByEmpIdAndAdIdHandler(@PathVariable Integer empId,@PathVariable Integer id) throws Exception{
 		return  new ResponseEntity<String>(addressServiceImpl.deleteAddressByEmpId(id, empId),HttpStatus.ACCEPTED);
 	}
 	
